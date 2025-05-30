@@ -1,0 +1,155 @@
+# File produced by Kranc
+
+schedule IDProca7_Startup at STARTUP
+{
+  LANG: C
+  OPTIONS: meta
+} "create banner"
+
+schedule IDProca7_RegisterSymmetries in SymmetryRegister
+{
+  LANG: C
+  OPTIONS: meta
+} "register symmetries"
+
+#schedule Proca_curv7 IN ADMBase_InitialData AFTER HeadOnProca_setup
+#schedule Proca_curv7 IN ADMBase_InitialData AFTER MergerProca_setup
+#schedule Proca_curv7 IN ADMBase_InitialData AFTER IDProca_setup
+schedule Proca_curv7 IN ADMBase_InitialData AFTER IDProca6_setup
+{
+  LANG: C
+  SYNC: ML_BSSN::ML_curv
+  READS: ADMBase::kxx(Everywhere)
+  READS: ADMBase::kxy(Everywhere)
+  READS: ADMBase::kxz(Everywhere)
+  READS: ADMBase::kyy(Everywhere)
+  READS: ADMBase::kyz(Everywhere)
+  READS: ADMBase::kzz(Everywhere)
+  READS: ADMBase::alp(Everywhere)
+  READS: ADMBase::gxx(Everywhere)
+  READS: ADMBase::gxy(Everywhere)
+  READS: ADMBase::gxz(Everywhere)
+  READS: ADMBase::gyy(Everywhere)
+  READS: ADMBase::gyz(Everywhere)
+  READS: ADMBase::gzz(Everywhere)
+  READS: ADMBase::betax(Everywhere)
+  READS: ADMBase::betay(Everywhere)
+  READS: ADMBase::betaz(Everywhere)
+  WRITES: ML_BSSN::At11(Interior)
+  WRITES: ML_BSSN::At12(Interior)
+  WRITES: ML_BSSN::At13(Interior)
+  WRITES: ML_BSSN::At22(Interior)
+  WRITES: ML_BSSN::At23(Interior)
+  WRITES: ML_BSSN::At33(Interior)
+} "Proca_curv7"
+
+schedule proca7 IN ADMBase_InitialData AFTER Proca_curv7
+{
+  LANG: C
+  SYNC: ADMBase::curv
+  SYNC: ML_BSSN::ML_curv
+  SYNC: ProcaBase::E1i
+  SYNC: ProcaBase::E2i
+  READS: ADMBase::alp(Everywhere)
+  READS: ADMBase::gxx(Everywhere)
+  READS: ADMBase::gxy(Everywhere)
+  READS: ADMBase::gxz(Everywhere)
+  READS: ADMBase::gyy(Everywhere)
+  READS: ADMBase::gyz(Everywhere)
+  READS: ADMBase::gzz(Everywhere)
+  READS: ADMBase::betax(Everywhere)
+  READS: ADMBase::betay(Everywhere)
+  READS: ADMBase::betaz(Everywhere)
+  READS: ML_BSSN::At11(Everywhere)
+  READS: ML_BSSN::At12(Everywhere)
+  READS: ML_BSSN::At13(Everywhere)
+  READS: ML_BSSN::At22(Everywhere)
+  READS: ML_BSSN::At23(Everywhere)
+  READS: ML_BSSN::At33(Everywhere)
+  READS: ProcaBase::A1x(Everywhere)
+  READS: ProcaBase::A1y(Everywhere)
+  READS: ProcaBase::A1z(Everywhere)
+  READS: ProcaBase::A2x(Everywhere)
+  READS: ProcaBase::A2y(Everywhere)
+  READS: ProcaBase::A2z(Everywhere)
+  READS: ProcaBase::Aphi1(Everywhere)
+  READS: ProcaBase::Aphi2(Everywhere)
+  READS: ProcaBase::E1x(Everywhere)
+  READS: ProcaBase::E1y(Everywhere)
+  READS: ProcaBase::E1z(Everywhere)
+  READS: ProcaBase::E2x(Everywhere)
+  READS: ProcaBase::E2y(Everywhere)
+  READS: ProcaBase::E2z(Everywhere)
+  WRITES: ML_BSSN::At11(Interior)
+  WRITES: ML_BSSN::At12(Interior)
+  WRITES: ML_BSSN::At13(Interior)
+  WRITES: ML_BSSN::At22(Interior)
+  WRITES: ML_BSSN::At23(Interior)
+  WRITES: ML_BSSN::At33(Interior)
+  WRITES: ProcaBase::E1x(Interior)
+  WRITES: ProcaBase::E1y(Interior)
+  WRITES: ProcaBase::E1z(Interior)
+  WRITES: ProcaBase::E2x(Interior)
+  WRITES: ProcaBase::E2y(Interior)
+  WRITES: ProcaBase::E2z(Interior)
+  WRITES: ADMBase::kxx(Interior)
+  WRITES: ADMBase::kxy(Interior)
+  WRITES: ADMBase::kxz(Interior)
+  WRITES: ADMBase::kyy(Interior)
+  WRITES: ADMBase::kyz(Interior)
+  WRITES: ADMBase::kzz(Interior)
+} "proca7"
+
+schedule Proca_fac7 IN ADMBase_InitialData AFTER proca7
+{
+  LANG: C
+  READS: ProcaBase::A1x(Everywhere)
+  READS: ProcaBase::A1y(Everywhere)
+  READS: ProcaBase::A1z(Everywhere)
+  READS: ProcaBase::A2x(Everywhere)
+  READS: ProcaBase::A2y(Everywhere)
+  READS: ProcaBase::A2z(Everywhere)
+  READS: ProcaBase::Aphi1(Everywhere)
+  READS: ProcaBase::Aphi2(Everywhere)
+  READS: ProcaBase::E1x(Everywhere)
+  READS: ProcaBase::E1y(Everywhere)
+  READS: ProcaBase::E1z(Everywhere)
+  READS: ProcaBase::E2x(Everywhere)
+  READS: ProcaBase::E2y(Everywhere)
+  READS: ProcaBase::E2z(Everywhere)
+  WRITES: ProcaBase::A1x(Everywhere)
+  WRITES: ProcaBase::A1y(Everywhere)
+  WRITES: ProcaBase::A1z(Everywhere)
+  WRITES: ProcaBase::A2x(Everywhere)
+  WRITES: ProcaBase::A2y(Everywhere)
+  WRITES: ProcaBase::A2z(Everywhere)
+  WRITES: ProcaBase::Aphi1(Everywhere)
+  WRITES: ProcaBase::Aphi2(Everywhere)
+  WRITES: ProcaBase::E1x(Everywhere)
+  WRITES: ProcaBase::E1y(Everywhere)
+  WRITES: ProcaBase::E1z(Everywhere)
+  WRITES: ProcaBase::E2x(Everywhere)
+  WRITES: ProcaBase::E2y(Everywhere)
+  WRITES: ProcaBase::E2z(Everywhere)
+} "Proca_fac7"
+
+schedule IDProca7_SelectBoundConds in MoL_PostStep
+{
+  LANG: C
+  OPTIONS: level
+} "select boundary conditions"
+
+schedule IDProca7_CheckBoundaries at BASEGRID
+{
+  LANG: C
+  OPTIONS: meta
+} "check boundaries treatment"
+
+schedule IDProca7_RegisterVars in MoL_Register
+{
+  LANG: C
+  OPTIONS: meta
+} "Register Variables for MoL"
+schedule group ApplyBCs as IDProca7_ApplyBCs in MoL_PostStep after IDProca7_SelectBoundConds
+{
+} "Apply boundary conditions controlled by thorn Boundary"

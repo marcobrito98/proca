@@ -1,0 +1,68 @@
+# Interface definition for thorn NS_analysis
+implements: ProcaAnalysis
+
+inherits: Grid, CoordBase, reduce, TmunuBase, ADMBase #, ProcaBase
+
+USES INCLUDE HEADER: CarpetReduce_bits.h
+uses include: carpet.hh
+
+## From thorn cactusbase/Boundary:
+CCTK_INT FUNCTION                        \
+    Boundary_SelectGroupForBC            \
+        (CCTK_POINTER_TO_CONST IN GH,    \
+         CCTK_INT IN faces,              \
+         CCTK_INT IN boundary_width,     \
+         CCTK_INT IN table_handle,       \
+         CCTK_STRING IN group_name,      \
+         CCTK_STRING IN bc_name)
+USES FUNCTION Boundary_SelectGroupForBC
+
+CCTK_REAL Proca_mass_point type = GF Timelevels = 1 tags='Prolongation="none" tensortypealias="Scalar" '
+{
+  Proca_energy_point
+  Proca_angmomentum_point
+  Proca_angmomentum_point_y
+  Proca_rho_point
+
+  Proca_energy_point_r150
+  Proca_angmomentum_point_r150
+  Proca_rho_point_r150
+
+  Proca_energy_point_r100
+  Proca_angmomentum_point_r100
+  Proca_rho_point_r100
+
+  Proca_energy_point_r60
+  Proca_angmomentum_point_r60
+  Proca_rho_point_r60
+
+  Proca_energy_point_r30
+  Proca_angmomentum_point_r30
+  Proca_rho_point_r30
+
+}"energy and angular momentum at every point to be used in the global reductions"
+
+CCTK_REAL global_quantities type = SCALAR
+{
+ Proca_energy
+ Proca_angularmomentum 
+ Proca_angularmomentum_y
+ Proca_rho
+
+ Proca_energy_r150
+ Proca_angularmomentum_r150
+ Proca_rho_r150
+
+ Proca_energy_r100
+ Proca_angularmomentum_r100
+ Proca_rho_r100
+
+ Proca_energy_r60
+ Proca_angularmomentum_r60
+ Proca_rho_r60
+
+ Proca_energy_r30
+ Proca_angularmomentum_r30
+ Proca_rho_r30
+
+}"global quantities such as the energy and so on" 

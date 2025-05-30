@@ -1,0 +1,7 @@
+# Configuration definitions for thorn Proca_analysis
+
+REQUIRES LoopControl
+
+OPTIONAL Fortran
+{
+}

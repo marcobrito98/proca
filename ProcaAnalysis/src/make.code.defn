@@ -1,0 +1,9 @@
+# Main make.code.defn file for thorn NS_analysis
+
+# Source files in this directory
+SRCS = proca_analysis.cc \
+  	Basegrid.F90 \
+	ProcaAnalysis_Boundaries.F90 
+
+# Subdirectories containing source files
+SUBDIRS = 

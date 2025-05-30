@@ -1,0 +1,47 @@
+# Schedule definitions for thorn NS_analysis
+
+#request storage for all your thorn variables
+STORAGE:Proca_mass_point
+STORAGE:global_quantities
+
+#=============================================================================
+## Set symmetries for NPScalars grid functions
+##=============================================================================
+schedule procaanalysis_symmetries AT BASEGRID
+{
+  LANG: Fortran
+    OPTIONS: Meta
+    } "Set symmetries for grid functions"
+
+schedule proca_analysis_point_calc in MoL_PostStep #after Proca_AddToTmunu 
+        {
+                LANG: C
+                OPTIONS: global loop-local
+                TRIGGERS: global_quantities
+
+       } "Calculate the global quantities at each grid point: global loop-local routine"
+
+schedule proca_analysis_reduce in MoL_PostStep after proca_analysis_point_calc
+        {
+                LANG: C
+                OPTIONS: global
+                TRIGGERS: global_quantities
+
+        }"Reduce the NS rest and gravitational mass"
+
+## Call symmetry boundary conditions
+schedule ProcaAnalysis_Boundaries in AddToTmunu after proca_analysis_reduce  #at ANALYSIS after proca_analysis_point_calc
+{
+  LANG:    Fortran
+  OPTIONS: global
+  SYNC:   Proca_mass_point
+                                } "Symmetry boundary conditions"
+
+ schedule GROUP ApplyBCs AS ApplyBCs_ProcaAnalysis in MoL_PostStep AFTER ProcaAnalysis_Boundaries
+{
+                                                                                           } "Apply boundary conditions"
+
+
+
+
+

@@ -1,0 +1,10 @@
+# Schedule definitions for thorn IDProca6
+# $Header$
+
+
+if (CCTK_Equals(initial_Proca, "proca")){
+schedule IDProca6_setup in ADMBase_InitialData
+{	
+   LANG: C
+} "Construct initial data for a single Proca Star"
+}

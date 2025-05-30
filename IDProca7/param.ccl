@@ -1,0 +1,118 @@
+# File produced by Kranc
+
+
+shares: GenericFD
+
+USES CCTK_INT assume_stress_energy_state
+
+
+shares: MethodOfLines
+
+USES CCTK_INT MoL_Num_Evolved_Vars
+USES CCTK_INT MoL_Num_ArrayEvolved_Vars
+
+restricted:
+CCTK_INT verbose "verbose" STEERABLE=ALWAYS
+{
+  *:* :: ""
+} 0
+
+restricted:
+CCTK_INT other_timelevels "Number of active timelevels for non-evolved grid functions" STEERABLE=RECOVER
+{
+  0:3 :: ""
+} 1
+
+restricted:
+CCTK_REAL epsilon "epsilon" STEERABLE=ALWAYS
+{
+  0:* :: "non-negative"
+} 1.e-15
+
+restricted:
+CCTK_REAL omega "frequency" STEERABLE=ALWAYS
+{
+  0:1 :: "non-negative"
+} 1.
+
+restricted:
+CCTK_REAL fac "factor" STEERABLE=ALWAYS
+{
+  0:* :: "non-negative"
+} 1.
+
+restricted:
+CCTK_INT fdOrder "Finite differencing order"
+{
+  2 :: ""
+  4 :: ""
+  6 :: ""
+  8 :: ""
+} 4
+
+restricted:
+CCTK_INT tile_size "Loop tile size"
+{
+  *:* :: ""
+} -1
+
+restricted:
+CCTK_INT IDProca7_MaxNumEvolvedVars "Number of evolved variables used by this thorn" ACCUMULATOR-BASE=MethodofLines::MoL_Num_Evolved_Vars STEERABLE=RECOVER
+{
+  0:0 :: "Number of evolved variables used by this thorn"
+} 0
+
+restricted:
+CCTK_INT IDProca7_MaxNumArrayEvolvedVars "Number of Array evolved variables used by this thorn" ACCUMULATOR-BASE=MethodofLines::MoL_Num_ArrayEvolved_Vars STEERABLE=RECOVER
+{
+  0:0 :: "Number of Array evolved variables used by this thorn"
+} 0
+
+restricted:
+CCTK_INT timelevels "Number of active timelevels" STEERABLE=RECOVER
+{
+  0:3 :: ""
+} 3
+
+restricted:
+CCTK_INT rhs_timelevels "Number of active RHS timelevels" STEERABLE=RECOVER
+{
+  0:3 :: ""
+} 1
+
+restricted:
+CCTK_INT Proca_curv7_calc_every "Proca_curv7_calc_every" STEERABLE=ALWAYS
+{
+  *:* :: ""
+} 1
+
+restricted:
+CCTK_INT proca7_calc_every "proca7_calc_every" STEERABLE=ALWAYS
+{
+  *:* :: ""
+} 1
+
+restricted:
+CCTK_INT Proca_fac7_calc_every "Proca_fac7_calc_every" STEERABLE=ALWAYS
+{
+  *:* :: ""
+} 1
+
+restricted:
+CCTK_INT Proca_curv7_calc_offset "Proca_curv7_calc_offset" STEERABLE=ALWAYS
+{
+  *:* :: ""
+} 0
+
+restricted:
+CCTK_INT proca7_calc_offset "proca7_calc_offset" STEERABLE=ALWAYS
+{
+  *:* :: ""
+} 0
+
+restricted:
+CCTK_INT Proca_fac7_calc_offset "Proca_fac7_calc_offset" STEERABLE=ALWAYS
+{
+  *:* :: ""
+} 0
+

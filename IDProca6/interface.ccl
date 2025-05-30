@@ -1,0 +1,6 @@
+# Interface definition for thorn IDProca6
+# $Header$
+
+implements: IDProca6
+inherits: ADMBase, ProcaBase, StaticConformal, Grid
+

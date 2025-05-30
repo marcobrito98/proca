@@ -1,0 +1,89 @@
+# Parameter definitions for thorn IDProca6
+# $Header$
+
+private:
+
+CCTK_REAL mode "Mode of Proca field"
+{
+ 0:* :: ""
+} 0.0
+
+CCTK_REAL epsilon "to avoid deviding by zero in grids that have grid point at the origin"
+{
+  0.0:* :: ""
+} 1.e-15
+
+BOOLEAN fill_past_timelevels "fill past timelevels by copying?"
+{
+} "no"
+
+CCTK_REAL fac "Amplitude perturbation"
+{
+  0.0:* :: ""
+} 0.0
+
+CCTK_REAL factor "Amplitude perturbation"
+{
+  0.0:* :: ""
+} 1.0
+
+CCTK_REAL modepert "mode perturbation"
+{
+  0.0:* :: ""
+} 0.0
+
+INT maxNF "maximum number of lines allowed in the input file"
+{
+ 100:* :: "any large enough integer"
+} 100000
+
+INT num_r "number of points for the radial coordinate"
+{
+ 1:* :: "positive number"
+} 401
+
+INT num_th "number of points for the theta coordinate"
+{
+ 1:* :: "positive number"
+} 119
+
+INT num_var "number of variables in the input file"
+{
+ 1:* :: "positive number"
+} 8
+
+shares: ADMBase
+
+EXTENDS KEYWORD initial_data 
+{
+  "proca"	       :: "Proca Star"	
+} 
+
+EXTENDS KEYWORD initial_lapse 
+{
+  "proca-one"          :: "Set lapse to ONE"
+  "proca-ID"     :: "Set lapse from ID file"
+}
+
+EXTENDS KEYWORD initial_shift 
+{
+  "proca-ID" :: "Set shift from ID file"
+  "zero"          :: "Set shift to 0"
+}
+
+shares: ProcaBase
+EXTENDS KEYWORD initial_Proca
+{
+  "proca"              :: "Proca Star"
+}
+
+private:
+STRING filename "Input file name"
+{
+  "" :: ""
+} ""
+
+STRING perturbation "Include m=2 perturbation"
+{
+  "" :: ""
+} "no"

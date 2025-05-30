@@ -1,0 +1,480 @@
+## mclachlan tov_static
+ActiveThorns = "Time MoL"
+ActiveThorns = "Coordbase CartGrid3d Boundary StaticConformal"
+ActiveThorns = "SymBase ADMBase TmunuBase InitBase ADMCoupling ADMMacros"
+ActiveThorns = "IOUtil Formaline"
+ActiveThorns = "SpaceMask CoordGauge Constants LocalReduce aeilocalinterp LoopControl"
+ActiveThorns = "Carpet CarpetLib CarpetReduce CarpetRegrid2 CarpetInterp"
+ActiveThorns = "CarpetIOASCII CarpetIOScalar CarpetIOHDF5 CarpetIOBasic"
+ActiveThorns = "ProcaBase"
+ActiveThorns = "AHFinderDirect"
+
+ActiveThorns = "ML_ADMConstraints NaNChecker"
+
+# grid parameters
+CartGrid3D::type         = "coordbase"
+CartGrid3D::domain       = "full"
+CartGrid3D::avoid_origin = "no"
+CoordBase::xmin =   -88.0
+CoordBase::ymin =   -88.0
+CoordBase::zmin =   -88.0
+CoordBase::xmax = 88.0
+CoordBase::ymax = 88.0
+CoordBase::zmax = 88.0
+CoordBase::dx   =   0.88
+CoordBase::dy   =   0.88
+CoordBase::dz   =   0.88
+
+CoordBase::boundary_size_x_lower        = 3
+CoordBase::boundary_size_y_lower        = 3
+CoordBase::boundary_size_z_lower        = 3
+CoordBase::boundary_size_x_upper        = 3
+CoordBase::boundary_size_y_upper        = 3
+CoordBase::boundary_size_z_upper        = 3
+CoordBase::boundary_shiftout_x_lower    = 0
+CoordBase::boundary_shiftout_y_lower    = 0
+CoordBase::boundary_shiftout_z_lower    = 1
+CoordBase::boundary_shiftout_x_upper    = 0
+CoordBase::boundary_shiftout_y_upper    = 0
+CoordBase::boundary_shiftout_z_upper    = 0
+
+CoordBase::boundary_staggered_x_lower = false
+CoordBase::boundary_staggered_y_lower = false
+CoordBase::boundary_staggered_z_lower = false
+CoordBase::boundary_staggered_x_upper = false
+CoordBase::boundary_staggered_y_upper = false
+CoordBase::boundary_staggered_z_upper = false
+
+
+ActiveThorns = "ReflectionSymmetry"
+
+ReflectionSymmetry::reflection_x = "no"
+ReflectionSymmetry::reflection_y = "no"
+ReflectionSymmetry::reflection_z = "no"
+ReflectionSymmetry::avoid_origin_x = "no"
+ReflectionSymmetry::avoid_origin_y = "no"
+ReflectionSymmetry::avoid_origin_z = "no"
+
+
+
+TmunuBase::stress_energy_storage = yes
+TmunuBase::stress_energy_at_RHS  = yes
+TmunuBase::timelevels            =  1
+TmunuBase::prolongation_type     = none
+
+#HydroBase::timelevels            = 3
+
+ADMMacros::spatial_order = 4
+
+ADMBase::metric_type     = "physical"
+
+ML_ADMConstraints::timelevels = 3
+
+SpaceMask::use_mask      = "yes"
+
+#Carpet::refinement_centering ="cell"
+Carpet::refinement_centering ="vertex"
+#Carpet::centering = "center"
+
+Carpet::domain_from_coordbase = "yes"
+Carpet::enable_all_storage       = no
+Carpet::use_buffer_zones         = "yes"
+
+Carpet::poison_new_timelevels    = "yes"
+Carpet::check_for_poison         = "no"
+Carpet::poison_value             = 113
+
+Carpet::init_3_timelevels        = no
+Carpet::init_fill_timelevels     = "yes"
+
+CarpetLib::poison_new_memory = "yes"
+CarpetLib::poison_value      = 114
+
+# system specific Carpet paramters
+Carpet::max_refinement_levels    = 9
+driver::ghost_size               = 3
+Carpet::prolongation_order_space = 3
+Carpet::prolongation_order_time  = 2
+
+CarpetRegrid2::regrid_every = 0
+CarpetRegrid2::num_centres  = 1
+
+CarpetRegrid2::num_levels_1 = 3
+CarpetRegrid2::position_x_1 = 0.0
+CarpetRegrid2::radius_1[1]  = 44.0
+CarpetRegrid2::radius_1[2]  = 22.0
+CarpetRegrid2::radius_1[3]  = 12.0
+CarpetRegrid2::radius_1[4]  = 6.0
+CarpetRegrid2::radius_1[5]  = 3.0
+CarpetRegrid2::radius_1[6]  = 1.5
+CarpetRegrid2::radius_1[7]  = 0.75
+CarpetRegrid2::radius_1[8]  = 0.375
+
+time::dtfac = 0.4
+MoL::ODE_Method             = "RK4"
+MoL::MoL_Intermediate_Steps = 4
+MoL::MoL_Num_Scratch_Levels = 1
+
+# check all physical variables for NaNs
+NaNChecker::check_every = 5120
+NaNChecker::action_if_found = "terminate" #, "just warn", "abort"
+NaNChecker::check_vars = "ADMBase::metric ADMBase::lapse ADMBase::shift ProcaBase::A1i ProcaBase::E1i ProcaBase::APhi1 ProcaBase::Zeta1"
+
+## Lapse Condition:  \partial_t alpha = - alpha K
+## Shift Condition:  \partial_t beta^i = 0
+
+# Hydro paramters
+#ActiveThorns = "EOS_Omni"
+#ActiveThorns = "GRHydro"
+
+#HydroBase::evolution_method      = "ML_BSSN"
+
+#GRHydro::riemann_solver            = "Marquina"
+#GRHydro::GRHydro_eos_type           = "Polytype"
+#GRHydro::GRHydro_eos_table          = "2D_Polytrope"
+#GRHydro::recon_method              = "ppm"
+#GRHydro::GRHydro_stencil            = 3
+#GRHydro::bound                     = "none"
+#GRHydro::rho_abs_min               = 1.e-10
+#GRHydro::GRHydro = 18 # Tmunu(10), rho,press,eps,w_lorentz,vel, tau
+#GRHydro::GRHydro    = 10    # gij(6), alpha, beta(3)
+
+
+ActiveThorns = "GenericFD NewRad"
+ActiveThorns = "ML_BSSN ML_BSSN_Helper"
+ADMBase::evolution_method        = "ML_BSSN"
+ADMBase::lapse_evolution_method  = "ML_BSSN"
+ADMBase::shift_evolution_method  = "ML_BSSN"
+ADMBase::dtlapse_evolution_method= "ML_BSSN"
+ADMBase::dtshift_evolution_method= "ML_BSSN"
+
+ML_BSSN::timelevels = 3
+
+#ML_BSSN::harmonicN           = 1      # 1+log
+#ML_BSSN::harmonicF           = 1.0    # 1+log
+#ML_BSSN::evolveA             = 1.0
+#ML_BSSN::evolveB             = 1.0
+#ML_BSSN::ShiftGammaCoeff     = 0.0
+#ML_BSSN::AlphaDriver         = 0.0
+#ML_BSSN::BetaDriver          = 0.0
+#ML_BSSN::advectLapse         = 0.0
+#ML_BSSN::advectShift         = 0.0
+
+#ML_BSSN::harmonicN                      = 1      # 1+log
+#ML_BSSN::harmonicF                      = 1.0    # 1+log
+#ML_BSSN::ShiftGammaCoeff                = 0.75
+#ML_BSSN::BetaDriver                     = 0.0 #suggested by van meter et al 2007
+#ML_BSSN::BetaDriver                     = 0.0 #2.0/M_spacetime #daniela alic conversation!
+#ML_BSSN::LapseAdvectionCoeff            = 0.0
+#ML_BSSN::ShiftAdvectionCoeff            = 0.0
+
+
+ML_BSSN::harmonicN                      = 1      # 1+log
+ML_BSSN::harmonicF                      = 2.0    # 1+log
+ML_BSSN::ShiftGammaCoeff                = 0.75
+#ML_BSSN::BetaDriver                     = 0.0 #suggested by van meter et al 2007
+ML_BSSN::BetaDriver                     = 1.0 #2.0/M_spacetime #daniela alic conversation!
+ML_BSSN::LapseAdvectionCoeff            = 1.0
+ML_BSSN::ShiftAdvectionCoeff            = 1.0
+
+ML_BSSN::MinimumLapse        = 1.0e-8
+ML_BSSN::fdOrder                 = 4
+ML_BSSN::conformalMethod                = 1 # 1 for W 
+ML_BSSN::initial_boundary_condition = "extrapolate-gammas"
+ML_BSSN::rhs_boundary_condition     = "NewRad"
+
+ML_BSSN::ML_log_confac_bound = "none"
+ML_BSSN::ML_metric_bound     = "none"
+ML_BSSN::ML_Gamma_bound      = "none"
+ML_BSSN::ML_trace_curv_bound = "none"
+ML_BSSN::ML_curv_bound       = "none"
+ML_BSSN::ML_lapse_bound      = "none"
+ML_BSSN::ML_dtlapse_bound    = "none"
+ML_BSSN::ML_shift_bound      = "none"
+ML_BSSN::ML_dtshift_bound    = "none"
+
+################################################################################
+# Kreiss-Oliger dissipation
+################################################################################
+ActiveThorns = "SphericalSurface"
+ActiveThorns = "Dissipation"
+
+Dissipation::order  = 5
+Dissipation::epsdis = 0.1
+Dissipation::vars   = "
+        ML_BSSN::ML_log_confac
+        ML_BSSN::ML_metric
+        ML_BSSN::ML_curv
+        ML_BSSN::ML_trace_curv
+        ML_BSSN::ML_Gamma
+        ML_BSSN::ML_lapse
+        ML_BSSN::ML_shift
+        ML_BSSN::ML_dtlapse
+        ML_BSSN::ML_dtshift
+  ProcaBase::E1i
+  ProcaBase::A1i
+  ProcaBase::Aphi1
+  ProcaBase::Zeta1
+  ProcaBase::E2i
+  ProcaBase::A2i
+  ProcaBase::Aphi2
+  ProcaBase::Zeta2
+     #   ML_Proca::ML_ScalarPot1
+     #   ML_Proca::ML_ScalarPot2
+     #   ML_Proca::ML_ElecField1
+     #   ML_Proca::ML_ElecField2
+     #   ML_Proca::ML_GammaProca1
+     #   ML_Proca::ML_GammaProca2
+     #   ML_Proca::ML_VectorPot1
+     #   ML_Proca::ML_VectorPot2
+"
+
+################################################################################
+# Apparent Horizons
+################################################################################
+
+AHFinderDirect::find_every = 400000
+
+AHFinderDirect::run_at_CCTK_POST_RECOVER_VARIABLES = no
+
+AHFinderDirect::move_origins            = no
+AHFinderDirect::reshape_while_moving    = no
+AHFinderDirect::predict_origin_movement = no
+
+AHFinderDirect::geometry_interpolator_name = "Lagrange polynomial interpolation"
+AHFinderDirect::geometry_interpolator_pars = "order=4"
+AHFinderDirect::surface_interpolator_name  = "Lagrange polynomial interpolation"
+AHFinderDirect::surface_interpolator_pars  = "order=4"
+
+AHFinderDirect::output_h_every = 0
+
+AHFinderDirect::N_horizons = 1
+
+AHFinderDirect::reset_horizon_after_not_finding      [1] = "no" #from bondi_punc.par
+
+AHFinderDirect::origin_x[1] = 0.0
+AHFinderDirect::origin_y[1] = 0.0
+AHFinderDirect::origin_z[1] = 0.0
+
+#AHFinderDirect::origin_x[2] = 0.0
+#AHFinderDirect::origin_y[2] = 0.0
+#AHFinderDirect::origin_z[2] = 0.0
+
+AHFinderDirect::initial_guess_method[1] = "coordinate sphere"
+AHFinderDirect::initial_guess__coord_sphere__x_center[1] =  0.0
+AHFinderDirect::initial_guess__coord_sphere__y_center[1] =  0.0
+AHFinderDirect::initial_guess__coord_sphere__z_center[1] =  0.0
+AHFinderDirect::initial_guess__coord_sphere__radius[1]   =  0.1
+AHFinderDirect::track_origin_from_grid_scalar        [1] = "yes"
+AHFinderDirect::track_origin_source_x                [1] = "PunctureTracker::pt_loc_x[0]" 
+AHFinderDirect::track_origin_source_y                [1] = "PunctureTracker::pt_loc_y[0]"
+AHFinderDirect::track_origin_source_z                [1] = "PunctureTracker::pt_loc_z[0]"
+AHFinderDirect::which_surface_to_store_info        [1] = 0
+
+#AHFinderDirect::initial_guess_method[2] = "coordinate sphere"
+#AHFinderDirect::initial_guess__coord_sphere__x_center[2] =  0.0
+#AHFinderDirect::initial_guess__coord_sphere__y_center[2] =  0.0
+#AHFinderDirect::initial_guess__coord_sphere__z_center[2] =  0.0
+#AHFinderDirect::initial_guess__coord_sphere__radius[2]   =  1.0
+#AHFinderDirect::track_origin_from_grid_scalar        [2] = "yes"
+#AHFinderDirect::track_origin_source_x                [2] = "PunctureTracker::pt_loc_x[0]"
+#AHFinderDirect::track_origin_source_y                [2] = "PunctureTracker::pt_loc_y[0]"
+#AHFinderDirect::track_origin_source_z                [2] = "PunctureTracker::pt_loc_z[0]"
+#AHFinderDirect::which_surface_to_store_info        [2] = 2
+
+AHFinderDirect::find_after_individual_time      [1] = 0.0
+
+#AHFinderDirect::find_after_individual_time      [2] = 8.0
+#AHFinderDirect::set_mask_for_all_horizons = "yes"
+
+
+
+################################################################################
+# Spherical surfaces
+################################################################################
+
+SphericalSurface::nsurfaces = 1
+SphericalSurface::maxntheta = 155
+SphericalSurface::maxnphi = 304
+
+SphericalSurface::ntheta      [0] = 39 #155
+SphericalSurface::nphi        [0] = 76 #304
+SphericalSurface::nghoststheta[0] = 2
+SphericalSurface::nghostsphi  [0] = 2
+
+#SphericalSurface::ntheta      [1] = 39
+#SphericalSurface::nphi        [1] = 76
+#SphericalSurface::nghoststheta[1] = 2
+#SphericalSurface::nghostsphi  [1] = 2
+
+#SphericalSurface::ntheta      [2] = 155
+#SphericalSurface::nphi        [2] = 304
+#SphericalSurface::nghoststheta[2] = 2
+#SphericalSurface::nghostsphi  [2] = 2
+
+ActiveThorns = "PunctureTracker"
+
+PunctureTracker::verbose = no
+
+PunctureTracker::track    [0] = yes
+PunctureTracker::initial_x[0] = +0.0
+PunctureTracker::initial_y[0] = +0.0
+PunctureTracker::initial_z[0] = +0.0
+PunctureTracker::which_surface_to_store_info[0] = 1 #from numrel.org
+
+ActiveThorns = "QuasiLocalMeasures" #from numrel.org BH-NS par file
+
+QuasiLocalMeasures::num_surfaces   = 1
+QuasiLocalMeasures::spatial_order  = 4
+QuasiLocalMeasures::interpolator = "Lagrange polynomial interpolation"
+QuasiLocalMeasures::interpolator_options = "order=4"
+QuasiLocalMeasures::surface_index  [0] = 0
+#QuasiLocalMeasures::surface_index  [1] = 2
+QuasiLocalMeasures::killing_vector_method = "eigenvector"
+QuasiLocalMeasures::killing_vector_normalisation = "median"
+QuasiLocalMeasures::verbose = yes
+QuasiLocalMeasures::veryverbose = no
+
+# init parameters
+#InitBase::initial_data_setup_method = "init_some_levels"
+
+
+# Initial Data
+#------------------------------------------------------------------------------
+ProcaBase::mu                         = 1.0
+
+ActiveThorns = "IDProca6 IDProca7"
+IDProca6::filename = "/home/lv65/lv65306/prolateprocastars/w0870/prueba.dat"
+ADMBase::initial_data      = "proca"
+ADMBase::initial_lapse     = "proca-ID"
+ADMBase::initial_shift     = "proca-ID"
+ADMBase::initial_dtlapse         = "zero"
+ADMBase::initial_dtshift         = "zero"
+ProcaBase::initial_Proca = "proca"
+ADMBase::lapse_timelevels  = 3
+ADMBase::shift_timelevels  = 3
+ADMBase::metric_timelevels = 3
+InitBase::initial_data_setup_method     = init_all_levels
+
+IDProca6::mode = 0.0
+IDProca6::epsilon = 1e-10
+IDProca6::perturbation = "no"
+IDProca6::fac = 0.0
+IDProca7::omega = 0.870
+IDProca7::fac = 1.00
+#IDProca2::epsilon = 1e-15
+
+ActiveThorns = "ProcaEvolve"
+ProcaEvolve::derivs_order  = 4
+ProcaEvolve::kappa = 0.0
+ProcaBase::evolution_method       = "ProcaEvolve"
+
+ActiveThorns = "ProcaAnalysis"
+
+IOBasic::outInfo_every              = 1
+IOBasic::outInfo_vars               = "Carpet::physical_time_per_hour Carpet::time_total ADMBase::lapse"
+
+
+IO::out_dir      = "./data/"
+IO::out_fileinfo = "none"
+
+IOASCII::out1D_d = "no"
+IOASCII::compact_format = "yes"
+
+IOASCII::out0D_every = 0
+IOASCII::out0D_point_x = 3.2
+IOASCII::out0D_point_y = 3.2
+IOASCII::out0D_point_z = 3.2
+IOASCII::out0D_vars  = "
+ #ADMBase::lapse
+ #ProcaAnalysis::global_quantities
+  ProcaBase::E1i
+ # ProcaBase::A1i
+ # ProcaBase::Aphi1
+ # ProcaBase::Zeta1
+  ProcaBase::E2i
+ # ProcaBase::A2i
+ # ProcaBase::Aphi2
+ # ProcaBase::Zeta2
+ # ML_ADMConstraints::ML_Ham
+ # ML_ADMConstraints::ML_mom
+"
+
+IOScalar::outScalar_every = 64
+IOScalar::one_file_per_group = yes
+IOScalar::outScalar_vars  = "
+ ML_BSSN::ML_Ham
+ ADMBase::lapse
+ ProcaAnalysis::global_quantities
+"
+
+IOASCII::out1D_every     = 0
+IOASCII::one_file_per_group = yes
+IOASCII::output_symmetry_points = yes
+IOASCII::out3D_ghosts           = yes
+IOASCII::out3D_outer_ghosts     = yes
+IOASCII::out1D_vars      = "
+ADMBase::lapse
+  ML_BSSN::ML_log_confac
+  ProcaBase::E1i
+  ProcaBase::A1i
+  ProcaBase::Aphi1
+  ProcaBase::Zeta1
+  ProcaBase::E2i
+  ProcaBase::A2i
+  ProcaBase::Aphi2
+  ProcaBase::Zeta2  
+  ML_ADMConstraints::ML_Ham
+  ML_ADMConstraints::ML_mom
+"
+
+# 2D HDF5 output
+IOHDF5::out2D_every             = 327680 #81920 #40960 
+IOHDF5::out2D_xy                = yes
+IOHDF5::out2D_xz                = yes
+IOHDF5::out2D_yz                = no
+IOHDF5::out2D_vars              = "
+  # ADMBase::gxx
+   ProcaAnalysis::Proca_energy_point
+  # ProcaAnalysis::Proca_angmomentum_point
+  # ADMBase::lapse
+  # ProcaBase::Aphi1
+   ProcaBase::Aphi2
+  # ProcaBase::E1z
+  # ProcaBase::E2z
+  # ProcaBase::A1z
+  # ProcaBase::A2z
+  # ADMBase::lapse
+  # ADMBase::metric
+"
+
+
+################################################################################
+# Checkpointing and recovery
+################################################################################
+
+CarpetIOHDF5::checkpoint                    = yes
+IO::checkpoint_ID                           = no
+iohdf5::use_reflevels_from_checkpoint       = "no"
+IO::recover                                 = "autoprobe"
+IO::checkpoint_every_walltime_hours         = 6
+IO::out_proc_every                          = 2
+IO::checkpoint_keep                         = 1
+IO::checkpoint_on_terminate                 = no
+IOUtil::checkpoint_dir                      = "./checkpoint"
+IOUtil::recover_dir                         = "./checkpoint"
+IO::abort_on_io_errors                      = no
+CarpetIOHDF5::open_one_input_file_at_a_time = no
+
+#============================================
+# Termination
+#============================================
+
+ActiveThorns = "TerminationTrigger"
+
+#TerminationTrigger::max_walltime                 = 72.0   # hours
+#TerminationTrigger::on_remaining_walltime        = 15 # minutes
+#TerminationTrigger::output_remtime_every_minutes = 60
+Cactus::terminate                               = "time"
+Cactus::cctk_final_time                         =  20000.0
+#Cactus::cctk_itlast                             = 256
